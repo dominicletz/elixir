@@ -66,6 +66,7 @@ defmodule PathTest do
       assert Path.absname("\\/host\\path") == "//host/path"
       assert Path.absname("/\\host\\path") == "//host/path"
 
+      assert Path.absname("c:") == "c:/"
       assert Path.absname("c:/") == "c:/"
       assert Path.absname("c:/host/path") == "c:/host/path"
 
@@ -75,6 +76,10 @@ defmodule PathTest do
       <<letter, _::binary>> = cwd
       random = Enum.random(Enum.to_list(?c..?z) -- [letter])
       assert Path.absname(<<random, ?:>>) == <<random, ?:, ?/>>
+    end
+
+    test "expand/1" do
+      assert Path.absname("c:") == "c:"
     end
 
     test "relative/1" do
@@ -133,6 +138,8 @@ defmodule PathTest do
       assert Path.type("\\\\host\\path") == :absolute
       assert Path.type("/\\host\\path") == :absolute
       assert Path.type("\\/host\\path") == :absolute
+
+      assert Path.type("C:") == :volumerelative
     end
 
     test "split/1" do
