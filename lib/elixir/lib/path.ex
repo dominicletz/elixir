@@ -847,6 +847,10 @@ defmodule Path do
   defp expand_dot([], ["/", head | acc]), do: :lists.reverse([head | acc])
   defp expand_dot([], acc), do: :lists.reverse(acc)
 
+  defp major_os_type do
+    :os.type() |> elem(0)
+  end
+
   @doc """
   Returns a relative path that is protected from directory-traversal attacks.
 
